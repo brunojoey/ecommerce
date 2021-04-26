@@ -1,3 +1,4 @@
+const flavors = ['lavender', 'caramel', 'honey',  ]
 const products = [
   {
     name: 'Airpods Wireless Bluetooth Headphones',
@@ -71,6 +72,40 @@ const products = [
     rating: 4,
     numReviews: 12,
   },
+  // __________________________________________________________
+  {
+    name: 'Coffee',
+    image: 'asdfasd',
+    description: "It's coffee.",
+    category: 'Black',
+    price: 2.99,
+    rating: 5,
+    numReviews: 10
+  },
+  {
+    name: "Iced Coffee",
+    image: 'asdfasd',
+    description: "It's coffee in ice form.",
+    category: 'Iced Drink',
+    flavor: flavors[2],
+    price: 3.49,
+    rating: 4.5,
+    numReviews: 10
+  },
+  {
+    name: 'Latte',
+    image: 'nasdfasdf',
+    description: ['Hot latte', 'Latte'],
+    category: "Latte",
+    price: 3.49,
+    rating: 5,
+    numReviews: 20
+  },
+  {
+    name: 'Iced Latte',
+    image: 'asdfasdfasdf',
+
+  }
 ]
 
 export default products;
