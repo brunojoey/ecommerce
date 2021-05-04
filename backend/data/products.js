@@ -75,18 +75,18 @@ const products = [
   // __________________________________________________________
   {
     name: 'Coffee',
-    image: 'asdfasd',
+    image: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80',
     description: "It's coffee.",
-    category: 'Black',
+    category: ['Hot Drink'],
     price: 2.99,
     rating: 5,
     numReviews: 10
   },
   {
     name: "Iced Coffee",
-    image: 'asdfasd',
+    image: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80',
     description: "It's coffee in ice form.",
-    category: 'Iced Drink',
+    category: ['Iced Drink'],
     flavor: flavors[2],
     price: 3.49,
     rating: 4.5,
@@ -94,7 +94,7 @@ const products = [
   },
   {
     name: 'Latte',
-    image: 'nasdfasdf',
+    image: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80',
     description: ['Hot latte', 'Latte'],
     category: "Latte",
     price: 3.49,
@@ -103,7 +103,7 @@ const products = [
   },
   {
     name: 'Iced Latte',
-    image: 'asdfasdfasdf',
+    image: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80',
 
   }
 ]
