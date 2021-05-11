@@ -1,9 +1,18 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { productListReducer, productDetailsReducer } from './reducers/productReducers.js';
-import { cartReducer } from './reducers/cartReducers';
-import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers';
+import {
+  productListReducer,
+  productDetailsReducer,
+} from "./reducers/productReducers.js";
+import { cartReducer } from "./reducers/cartReducers";
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+  userUpdateProfileReducer,
+} from "./reducers/userReducers";
+import { orderCreateReducer } from "./reducers/orderReducers.js";
 
 const reducer = combineReducers({
   // productList will show as the state. Not productListReducer and so on!
@@ -13,19 +22,31 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
-  userUpdateProfile: userUpdateProfileReducer
+  userUpdateProfile: userUpdateProfileReducer,
+  orderCreate: orderCreateReducer
 });
 
 // Getting cart items from local storage through cartActions
-const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+const cartItemsFromStorage = localStorage.getItem("cartItems")
+  ? JSON.parse(localStorage.getItem("cartItems"))
+  : [];
 
 //Getting user info from local storage
-const userInfoFromStorage = localStorage.getItem('userInfo') ? 
-JSON.parse(localStorage.getItem('userInfo')) : null;
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
 
-const initialState = { 
-  cart: { cartItems: cartItemsFromStorage },
-  userLogin: { userInfo: userInfoFromStorage }
+// Getting Shipping Address From Local Storage
+const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
+  ? JSON.parse(localStorage.getItem("shippingAddress"))
+  : {};
+
+const initialState = {
+  cart: {
+    cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
+  },
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 // spread whatever is in thunk and will pass it in the applyMiddleware spread operator
