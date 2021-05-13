@@ -12,7 +12,7 @@ import {
   userDetailsReducer,
   userUpdateProfileReducer,
 } from "./reducers/userReducers";
-import { orderCreateReducer } from "./reducers/orderReducers.js";
+import { orderCreateReducer, orderDetailsReducer } from "./reducers/orderReducers.js";
 
 const reducer = combineReducers({
   // productList will show as the state. Not productListReducer and so on!
@@ -23,7 +23,8 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
-  orderCreate: orderCreateReducer
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer
 });
 
 // Getting cart items from local storage through cartActions

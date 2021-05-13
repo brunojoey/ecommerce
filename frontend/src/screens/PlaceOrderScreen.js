@@ -19,15 +19,14 @@ const PlaceOrderScreen = ({ history }) => {
     cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
 
-  cart.shippingPrice = addDecimals(cart.cartItems > 100 ? 10 : 0);
+  cart.shippingPrice = addDecimals(cart.cartItems > 100 ? 0 : 100);
 
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
 
-  cart.totalPrice = addDecimals(
+  cart.totalPrice = (
     Number(cart.itemsPrice) +
-      Number(cart.shippingPrice) +
-      Number(cart.taxPrice).toFixed(2)
-  );
+    Number(cart.shippingPrice) +
+    Number(cart.taxPrice)).toFixed(2);
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
@@ -38,7 +37,8 @@ const PlaceOrderScreen = ({ history }) => {
       // eslint-disable-next-line
       history.push(`/order/${order._id}`); // won't be passed in until the order is placed
     }
-  }, [history, success, order._id]);
+  // eslint-disable-next-line
+  }, [history, success]);
 
   const placeOrderHandler = () => {
     dispatch(

@@ -1,16 +1,16 @@
 import { cartAddItem, cartRemoveItem, cartSavePaymentMethod, cartSaveShippingAddress } from '../constants/cartConstants';
 
 export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case cartAddItem:
       const item = action.payload;
 
-      const existItem = state.cartItems.find(x => x.product === item.product);
+      const existItem = state.cartItems.find((x) => x.product === item.product);
 
       if (existItem) {
         return {
           ...state,
-          cartItems: state.cartItems.map(x => x.product === existItem.product ? item : x)
+          cartItems: state.cartItems.map((x) => x.product === existItem.product ? item : x)
         }
       } else {
         return {
@@ -21,7 +21,7 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
     case cartRemoveItem:
       return {
         ...state,
-        cartItems: state.cartItems.filter(x => x.product !== action.payload)
+        cartItems: state.cartItems.filter((x) => x.product !== action.payload)
       }
     case cartSaveShippingAddress:
       return {
@@ -31,7 +31,7 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
     case cartSavePaymentMethod:
       return {
         ...state,
-        shippingAddress: action.payload
+        paymentMethod: action.payload
       }
     default: 
       return state
