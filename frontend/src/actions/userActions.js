@@ -9,10 +9,12 @@ import {
   userDetailsRequest,
   userDetailsSuccess,
   userDetailsFail,
+  userDetailsReset,
   userUpdateProfileRequest,
   userUpdateProfileSuccess,
   userUpdateProfileFail
 } from "../constants/userConstants";
+import { orderListMyReset } from '../constants/orderConstants';
 import axios from "axios";
 
 export const login = (email, password) => async (dispatch) => {
@@ -51,9 +53,12 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
+export const logout = () => (dispatch, history) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: userLogout });
+  // state should be reset to not see User Orders from last logged in
+  dispatch({ type: userDetailsReset });
+  dispatch({ type: orderListMyReset });
 };
 
 export const register = (name, email, password) => async (dispatch) => {

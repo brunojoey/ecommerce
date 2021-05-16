@@ -5,7 +5,17 @@ import {
   orderDetailsRequest,
   orderDetailsSuccess,
   orderDetailsFail,
+  orderPayRequest,
+  orderPaySuccess,
+  orderPayFail,
+  orderPayReset,
+  orderListMyRequest,
+  orderListMySuccess,
+  orderListMyFail,
+  orderListMyReset
 } from "../constants/orderConstants";
+
+// Workflow: routes, constants, reducers, actions, screens, bring actions into screen, get what we want from the state
 
 export const orderCreateReducer = (state = {}, action) => {
   switch (action.type) {
@@ -48,6 +58,55 @@ export const orderDetailsReducer = (
       return {
         loading: false,
         error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const orderPayReducer = ( state = {}, action ) => {
+  switch (action.type) {
+    case orderPayRequest:
+      return {
+        loading: true,
+      };
+    case orderPaySuccess:
+      return {
+        loading: false,
+        success: true,
+      };
+    case orderPayFail:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case orderPayReset:
+      return {}
+    default:
+      return state;
+  }
+};
+
+export const orderListMyReducer = ( state = {orders: []}, action ) => {
+  switch (action.type) {
+    case orderListMyRequest:
+      return {
+        loading: true,
+      };
+    case orderListMySuccess:
+      return {
+        loading: false,
+        orders: action.payload,
+      };
+    case orderListMyFail:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case orderListMyReset:
+      return {
+        // emptying the state
+        orders: []
       };
     default:
       return state;

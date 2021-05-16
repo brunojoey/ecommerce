@@ -10,6 +10,7 @@ export const userRegisterFail = "USER_REGISTER_FAIL";
 export const userDetailsRequest = "USER_DETAILS_REQUEST";
 export const userDetailsSuccess = "USER_DETAILS_SUCCESS";
 export const userDetailsFail = "USER_DETAILS_FAIL";
+export const userDetailsReset = "USER_DETAILS_RESET";
 
 export const userUpdateProfileRequest = "USER_UPDATE_PROFILE_REQUEST";
 export const userUpdateProfileSuccess = "USER_UPDATE_PROFILE_SUCCESS";

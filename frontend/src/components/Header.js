@@ -8,9 +8,10 @@ const Header = () => {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
-  const logoutHandler = () => {
+  const logoutHandler = (history) => {
     dispatch(logout());
-  }
+    console.log('history', history);
+  };
 
   return (
     <header>
@@ -32,7 +33,9 @@ const Header = () => {
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                  <LinkContainer to='/'>
+                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                  </LinkContainer>
                 </NavDropdown>
               ) :
               <LinkContainer to="/login">

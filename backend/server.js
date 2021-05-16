@@ -25,6 +25,9 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 
+// When ready to make payment, this route gets hit and sends to the PAYPAL developer server
+app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID));
+
 // Middleware Call
 app.use(notFound);
 app.use(errorHandler);

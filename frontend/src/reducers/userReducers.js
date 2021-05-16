@@ -9,6 +9,7 @@ import {
   userDetailsRequest,
   userDetailsSuccess,
   userDetailsFail,
+  userDetailsReset,
   userUpdateProfileRequest,
   userUpdateProfileSuccess,
   userUpdateProfileFail,
@@ -54,6 +55,9 @@ export const userDetailsReducer = (state = { user: {}}, action) => {
       return { loading: false, user: action.payload };
     case userDetailsFail:
       return { loading: false, error: action.payload };
+    case userDetailsReset:
+      // emptying the state after logout
+      return { user: {} }
     default:
       return state;
   }
