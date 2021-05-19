@@ -13,7 +13,18 @@ import {
   userUpdateProfileRequest,
   userUpdateProfileSuccess,
   userUpdateProfileFail,
-  userUpdateProfileReset
+  userUpdateProfileReset,
+  userListRequest,
+  userListSuccess,
+  userListFail,
+  userListReset,
+  userDeleteRequest,
+  userDeleteSuccess,
+  userDeleteFail,
+  userUpdateRequest,
+  userUpdateSuccess,
+  userUpdateFail,
+  userUpdateReset
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = { products: [] }, action) => {
@@ -77,4 +88,52 @@ export const userUpdateProfileReducer = (state = {}, action) => {
     default:
       return state;
   }
+};
+
+export const userListReducer = (state = { users: []}, action) => {
+  // The action object type needs to be evaluated so Switch statement
+  switch (action.type) {
+    case userListRequest:
+      return { loading: true };
+    case userListSuccess:
+      return { loading: false, users: action.payload };
+    case userListFail:
+      return { loading: false, error: action.payload };
+    case userListReset:
+      return { user: []}; // will clear the users when Admin logs out
+    default:
+      return state;
+  }
+};
+
+export const userDeleteReducer = (state = {}, action) => {
+  // The action object type needs to be evaluated so Switch statement
+  switch (action.type) {
+    case userDeleteRequest:
+      return { loading: true };
+    case userDeleteSuccess:
+      return { loading: false, success: true };
+    case userDeleteFail:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userUpdateReducer = (state = { user: {} }, action) => {
+  // The action object type needs to be evaluated so Switch statement
+  switch (action.type) {
+    case userUpdateRequest:
+      return { loading: true };
+    case userUpdateSuccess:
+      return { loading: false, success: true };
+    case userUpdateFail:
+      return { loading: false, error: action.payload };
+    case userUpdateReset:
+      return {
+        user: {}
+      };
+    default:
+      return state;
+  };
 };

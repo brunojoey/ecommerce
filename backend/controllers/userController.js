@@ -4,7 +4,7 @@ import User from "../models/userModel.js";
 
 // @desc Authenticate User & Get Token
 // @route POST /api/users/login
-// @access Public Token
+// @access Public/Token
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -105,4 +105,76 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile, updateUserProfile, registerUser };
+// @desc Get All Users
+// @route GET /api/users
+// @access Private/Admin
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({}); // Gets all users
+  res.json(users);
+});
+
+// @desc Delete User
+// @route DELETE /api/users/:id
+// @access Private/Admin
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    await user.remove();
+    res.json({ message: "User Removed" });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+
+// @desc Get a User by ID
+// @route GET /api/users/:id
+// @access Private/Admin
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select("-password"); // not fetching the password
+
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+
+// @desc Update User
+// @route PUT /api/users/:id
+// @access Private/Admin
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    // does not need || user.admin. If req.body.isAdmin is false, we wouldn't be able to update it if it is false
+    user.isAdmin = req.body.isAdmin;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+
+export {
+  authUser,
+  getUserProfile,
+  updateUserProfile,
+  registerUser,
+  getUsers,
+  deleteUser,
+  getUserById,
+  updateUser,
+};

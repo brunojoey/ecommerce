@@ -28,4 +28,14 @@ const protect = asyncHandler (async (req, res, next)  => {
   };
 });
 
-export { protect };
+const admin = (req, res, next) => {
+  // checks if a user is logged in and if the user is admin
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error ('Not Authorized as an Admin');
+  };
+};
+
+export { protect, admin };

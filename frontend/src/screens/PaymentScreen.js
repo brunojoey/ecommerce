@@ -22,7 +22,7 @@ const PaymentScreen = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault(); // since its a form
     dispatch(savePaymentMethod(paymentMethod));
-    history.push("/placeorder");
+    history.push("/place-order");
   };
 
   return (
