@@ -1,14 +1,18 @@
 // with new node.js, you can use ES type of importing. But with files, you need to add the extension
+import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
 import colors from 'colors';
+import pkg from 'cloudinary';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './config/db.js';
 
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 
+const cloudinary = pkg;
 dotenv.config();
 
 connectDB(); // Calls the DB to connect.
@@ -21,12 +25,24 @@ app.get('/', (req, res) => {
   res.send('API is running');
 });
 
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
+});
+
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // When ready to make payment, this route gets hit and sends to the PAYPAL developer server
 app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID));
+
+// not available with ES6 Modules. This is to mimic that 'require' behavior
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads'))); 
+// this will allow the folder to be static and be able to view
 
 // Middleware Call
 app.use(notFound);

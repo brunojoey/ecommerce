@@ -15,3 +15,12 @@ export const orderListMyRequest = 'ORDER_LIST_MY_REQUEST';
 export const orderListMySuccess = 'ORDER_LIST_MY_SUCCESS';
 export const orderListMyFail = 'ORDER_LIST_MY_FAIL';
 export const orderListMyReset = 'ORDER_LIST_MY_RESET';
+
+export const orderListRequest = 'ORDER_LIST__REQUEST';
+export const orderListSuccess = 'ORDER_LIST__SUCCESS';
+export const orderListFail = 'ORDER_LIST__FAIL';
+
+export const orderDeliverRequest = 'ORDER_DELIVER__REQUEST';
+export const orderDeliverSuccess = 'ORDER_DELIVER__SUCCESS';
+export const orderDeliverFail = 'ORDER_DELIVER__FAIL';
+export const orderDeliverReset = 'ORDER_DELIVER__RESET';

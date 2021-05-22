@@ -5,7 +5,16 @@ import {
   productListFail,
   productDetailsRequest,
   productDetailsSuccess,
-  productDetailsFail
+  productDetailsFail,
+  productDeleteRequest,
+  productDeleteSuccess,
+  productDeleteFail,
+  productCreateRequest,
+  productCreateSuccess,
+  productCreateFail,
+  productUpdateRequest,
+  productUpdateSuccess,
+  productUpdateFail,
 } from "../constants/productConstants";
 
 // action creators. actions will be dispatched elsewhere
@@ -42,3 +51,118 @@ export const listProductDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+export const deleteProduct = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: productDeleteRequest,
+    });
+
+    // should give us access to the logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/products/${id}`, config);
+
+    dispatch({ type: productDeleteSuccess });
+  } catch (error) {
+    // const message =
+    //   error.response && error.response.data.message
+    //     ? error.response.data.message
+    //     : error.message;
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout());
+    // }
+    dispatch({
+      type: productDeleteFail,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+}
+
+export const createProduct = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: productCreateRequest,
+    });
+
+    // should give us access to the logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(`/api/products`, {}, config);
+
+    dispatch({ type: productCreateSuccess, payload: data });
+  } catch (error) {
+    // const message =
+    //   error.response && error.response.data.message
+    //     ? error.response.data.message
+    //     : error.message;
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout());
+    // }
+    dispatch({
+      type: productCreateFail,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+}
+
+export const updateProduct = (product) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: productUpdateRequest,
+    });
+
+    // should give us access to the logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/products/${product._id}`, product, config);
+
+    dispatch({ type: productUpdateSuccess, payload: data });
+  } catch (error) {
+    // const message =
+    //   error.response && error.response.data.message
+    //     ? error.response.data.message
+    //     : error.message;
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout());
+    // }
+    dispatch({
+      type: productUpdateFail,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+}

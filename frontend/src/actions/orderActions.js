@@ -10,7 +10,13 @@ import {
   orderPayFail,
   orderListMyRequest,
   orderListMySuccess,
-  orderListMyFail
+  orderListMyFail,
+  orderListRequest,
+  orderListSuccess,
+  orderListFail,
+  orderDeliverRequest,
+  orderDeliverSuccess,
+  orderDeliverFail
 } from "../constants/orderConstants";
 import axios from "axios";
 
@@ -133,6 +139,47 @@ export const payOrder = (orderId, paymentResult) => async (dispatch, getState) =
   }
 }
 
+export const deliverOrder = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: orderDeliverRequest,
+    });
+
+    // should give us access to the logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/orders/${order._id}/deliver`, {}, config);
+
+    dispatch({
+      type: orderDeliverSuccess,
+      payload: data,
+    });
+  } catch (error) {
+    // const message =
+    //   error.response && error.response.data.message
+    //     ? error.response.data.message
+    //     : error.message;
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout());
+    // }
+    dispatch({
+      type: orderDeliverFail,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+}
+
 export const listMyOrders = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -166,6 +213,47 @@ export const listMyOrders = () => async (dispatch, getState) => {
     // }
     dispatch({
       type: orderListMyFail,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const listOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: orderListRequest,
+    });
+
+    // should give us access to the logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders`, config);
+
+    dispatch({
+      type: orderListSuccess,
+      payload: data,
+    });
+  } catch (error) {
+    // const message =
+    //   error.response && error.response.data.message
+    //     ? error.response.data.message
+    //     : error.message;
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout());
+    // }
+    dispatch({
+      type: orderListFail,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

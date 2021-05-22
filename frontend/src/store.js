@@ -4,6 +4,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productListReducer,
   productDetailsReducer,
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer,
 } from "./reducers/productReducers.js";
 import { cartReducer } from "./reducers/cartReducers";
 import {
@@ -13,14 +16,24 @@ import {
   userUpdateProfileReducer,
   userListReducer,
   userDeleteReducer,
-  userUpdateReducer
+  userUpdateReducer,
 } from "./reducers/userReducers";
-import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListMyReducer } from "./reducers/orderReducers.js";
+import {
+  orderCreateReducer,
+  orderDetailsReducer,
+  orderPayReducer,
+  orderListMyReducer,
+  orderListReducer,
+  orderDeliverReducer,
+} from "./reducers/orderReducers.js";
 
 const reducer = combineReducers({
   // productList will show as the state. Not productListReducer and so on!
   productList: productListReducer,
   productDetails: productDetailsReducer,
+  productDelete: productDeleteReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -32,7 +45,9 @@ const reducer = combineReducers({
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
-  orderListMy: orderListMyReducer
+  orderDeliver: orderDeliverReducer,
+  orderListMy: orderListMyReducer,
+  orderList: orderListReducer,
 });
 
 // Getting cart items from local storage through cartActions
