@@ -15,7 +15,14 @@ import {
   productUpdateRequest,
   productUpdateSuccess,
   productUpdateFail,
-  productUpdateReset
+  productUpdateReset,
+  productCreateReviewRequest,
+  productCreateReviewSuccess,
+  productCreateReviewFail,
+  productCreateReviewReset,
+  productTopRequest,
+  productTopSuccess,
+  productTopFail
 } from "../constants/productConstants";
 
 // Will handle the Product List
@@ -26,7 +33,7 @@ export const productListReducer = (state = { products: [] }, action) => {
     case productListRequest:
       return { loading: true, products: [] };
     case productListSuccess:
-      return { loading: false, products: action.payload };
+      return { loading: false, products: action.payload.products, pages: action.payload.pages, page: action.payload.page }; // all payloads coming from the productController
     case productListFail:
       return { loading: false, error: action.payload };
     default:
@@ -90,6 +97,34 @@ export const productUpdateReducer = (state = { product: {} }, action) => {
       return { loading: false, error: action.payload };
     case productUpdateReset:
       return { product: {} };
+    default:
+      return state;
+  }
+};
+
+export const productCreateReviewReducer = (state = {}, action) => {
+  switch (action.type) {
+    case productCreateReviewRequest:
+      return { loading: true };
+    case productCreateReviewSuccess:
+      return { loading: false, success: true };
+    case productCreateReviewFail:
+      return { loading: false, error: action.payload };
+    case productCreateReviewReset:
+      return { };
+    default:
+      return state;
+  }
+};
+
+export const productTopRatedReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
+    case productTopRequest:
+      return { loading: true, products: [] };
+    case productTopSuccess:
+      return { loading: false, products: action.payload };
+    case productTopFail:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

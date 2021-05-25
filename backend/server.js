@@ -3,6 +3,7 @@ import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
 import colors from 'colors';
+import morgan from 'morgan';
 import pkg from 'cloudinary';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './config/db.js';
@@ -18,6 +19,10 @@ dotenv.config();
 connectDB(); // Calls the DB to connect.
 
 const app = express();
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev')); // gives us the HTTP method and status
+}
 
 app.use(express.json()); // Will allow us to accept JSON data in the body
 

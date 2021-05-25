@@ -15,13 +15,20 @@ import {
   productUpdateRequest,
   productUpdateSuccess,
   productUpdateFail,
+  productCreateReviewRequest,
+  productCreateReviewSuccess,
+  productCreateReviewFail,
+  productTopRequest,
+  productTopSuccess,
+  productTopFail
 } from "../constants/productConstants";
 
 // action creators. actions will be dispatched elsewhere
-export const listProducts = () => async (dispatch) => {
+export const listProducts = (keyword = '', pageNumber = '') => async (dispatch) => {
   try {
     dispatch({ type: productListRequest }); // Will enable the productListRequest action in productReducers
-    const { data } = await axios.get("/api/products");
+    
+    const { data } = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
 
     dispatch({ type: productListSuccess, payload: data });
   } catch (error) {
@@ -166,3 +173,60 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     });
   }
 }
+
+export const createProductReview = (productId, review) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: productCreateReviewRequest,
+    });
+
+    // should give us access to the logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.post(`/api/products/${productId}/reviews`, review, config);
+
+    dispatch({ type: productCreateReviewSuccess });
+  } catch (error) {
+    // const message =
+    //   error.response && error.response.data.message
+    //     ? error.response.data.message
+    //     : error.message;
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout());
+    // }
+    dispatch({
+      type: productCreateReviewFail,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+}
+
+export const listTopProducts = () => async (dispatch) => {
+  try {
+    dispatch({ type: productTopRequest });
+    
+    const { data } = await axios.get(`/api/products/top`);
+
+    dispatch({ type: productTopSuccess, payload: data });
+  } catch (error) {
+    dispatch({
+      type: productTopFail,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

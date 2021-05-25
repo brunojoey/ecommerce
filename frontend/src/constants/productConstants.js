@@ -19,3 +19,12 @@ export const productUpdateRequest = 'PRODUCT_UPDATE_REQUEST';
 export const productUpdateSuccess = 'PRODUCT_UPDATE_SUCCESS';
 export const productUpdateFail = 'PRODUCT_UPDATE_FAIL';
 export const productUpdateReset = 'PRODUCT_UPDATE_RESET';
+
+export const productCreateReviewRequest = 'PRODUCT_CREATE_REVIEW_REQUEST';
+export const productCreateReviewSuccess = 'PRODUCT_CREATE_REVIEW_SUCCESS';
+export const productCreateReviewFail = 'PRODUCT_CREATE_REVIEW_FAIL';
+export const productCreateReviewReset = 'PRODUCT_CREATE_REVIEW_RESET';
+
+export const productTopRequest = 'PRODUCT_TOP_REQUEST';
+export const productTopSuccess = 'PRODUCT_TOP_SUCCESS';
+export const productTopFail = 'PRODUCT_TOP_FAIL';
