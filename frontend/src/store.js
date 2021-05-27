@@ -27,6 +27,7 @@ import {
   orderListMyReducer,
   orderListReducer,
   orderDeliverReducer,
+  orderCancelReducer
 } from "./reducers/orderReducers.js";
 
 const reducer = combineReducers({
@@ -52,6 +53,7 @@ const reducer = combineReducers({
   orderDeliver: orderDeliverReducer,
   orderListMy: orderListMyReducer,
   orderList: orderListReducer,
+  orderCancel: orderCancelReducer
 });
 
 // Getting cart items from local storage through cartActions
@@ -59,7 +61,7 @@ const cartItemsFromStorage = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
 
-//Getting user info from local storage
+// Getting user info from local storage
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;

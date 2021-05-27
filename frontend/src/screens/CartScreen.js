@@ -11,6 +11,7 @@ import {
   Card,
 } from "react-bootstrap";
 import Message from "../components/Message";
+import Meta from "../components/Meta";
 import { addToCart, removeFromCart } from "../actions/cartActions";
 
 // to get a query string, we need to use location.search
@@ -31,6 +32,8 @@ const CartScreen = ({ history }) => {
   }
 
   return (
+    <>
+    <Meta title="Your Cart" />
     <Row>
       <Col md={8}>
         <h1>Shopping Cart</h1>
@@ -109,6 +112,7 @@ const CartScreen = ({ history }) => {
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

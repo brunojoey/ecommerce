@@ -16,7 +16,10 @@ import {
   orderListFail,
   orderDeliverRequest,
   orderDeliverSuccess,
-  orderDeliverFail
+  orderDeliverFail,
+  orderCancelRequest,
+  orderCancelSuccess,
+  orderCancelFail
 } from "../constants/orderConstants";
 import axios from "axios";
 
@@ -260,4 +263,46 @@ export const listOrders = () => async (dispatch, getState) => {
           : error.message,
     });
   }
-}
+};
+
+export const cancelOrder = (orderId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: orderCancelRequest,
+    });
+
+    // should give us access to the logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.delete(`/api/orders/${orderId}`, config);
+
+    dispatch({
+      type: orderCancelSuccess,
+      payload: data,
+    });
+  } catch (error) {
+    // const message =
+    //   error.response && error.response.data.message
+    //     ? error.response.data.message
+    //     : error.message;
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout());
+    // }
+    dispatch({
+      type: orderCancelFail,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

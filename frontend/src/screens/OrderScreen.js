@@ -6,8 +6,13 @@ import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails, payOrder, deliverOrder } from "../actions/orderActions";
-import { orderPayReset, orderDeliverReset } from '../constants/orderConstants';
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+  cancelOrder,
+} from "../actions/orderActions";
+import { orderPayReset, orderDeliverReset } from "../constants/orderConstants";
 
 const OrderScreen = ({ match, history }) => {
   const [sdkReady, setSDKReady] = useState(false);
@@ -23,9 +28,16 @@ const OrderScreen = ({ match, history }) => {
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
-  
+
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
+  const orderCancel = useSelector((state) => state.orderCancel);
+  const {
+    loading: loadingCancel,
+    success: successCancel,
+    error: errorCancel,
+  } = orderCancel;
 
   if (!loading) {
     const addDecimals = (num) => {
@@ -39,8 +51,8 @@ const OrderScreen = ({ match, history }) => {
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/login');
-    };
+      history.push("/login");
+    }
 
     // dynamically adding the PAYPAL SDK Script to our HTML
     const addPayPalScript = async () => {
@@ -56,7 +68,7 @@ const OrderScreen = ({ match, history }) => {
     };
 
     // if order isn't paid it will add the Paypal script
-    // succes should be true and the getOrderDetails will be called
+    // success should be true and the getOrderDetails will be called
     if (!order || order._id !== orderId || successPay || successDeliver) {
       dispatch({ type: orderPayReset }); // will keep refreshing without this
       dispatch({ type: orderDeliverReset });
@@ -68,7 +80,16 @@ const OrderScreen = ({ match, history }) => {
         setSDKReady(true);
       }
     }
-  }, [dispatch, history, userInfo, order, orderId, successPay, successDeliver]);
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    order,
+    orderId,
+    successPay,
+    successDeliver,
+    successCancel,
+  ]);
 
   const successPaymentHandler = (paymentResult) => {
     // pay order action call
@@ -77,10 +98,10 @@ const OrderScreen = ({ match, history }) => {
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
-  }
+  };
 
   const cancelOrderHandler = () => {
-    console.log('canceled');
+    dispatch(cancelOrder(orderId));
   };
 
   return loading ? (
@@ -204,14 +225,29 @@ const OrderScreen = ({ match, history }) => {
                   )}
                 </ListGroup.Item>
               )}
-              {loadingDeliver && <Loader/>}
-              {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-                <ListGroup.Item>
-                  <Button type='button' className='btn btn-block' onClick={deliverHandler}>Mark as Delivered</Button>
-                </ListGroup.Item>
-              )}
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverHandler}
+                    >
+                      Mark as Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
               <ListGroup.Item>
-                <Button onClick={cancelOrderHandler}>Cancel Order</Button>
+                {loadingCancel ? (
+                  <Loader />
+                ) : errorCancel ? (
+                  <Message variant="danger">{errorCancel}</Message>
+                ) : (!successCancel ? <Button onClick={cancelOrderHandler}>Cancel Order</Button>
+                : <Message variant='success'>Order is Canceled</Message>
+                )}
               </ListGroup.Item>
             </ListGroup>
           </Card>

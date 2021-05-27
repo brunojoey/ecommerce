@@ -20,7 +20,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
   if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error("No Order Items");
-    return;
   } else {
     // begins new order
     const order = new Order({
@@ -119,6 +118,25 @@ const getOrders = asyncHandler(async (req, res) => {
   res.json(orders);
 });
 
+// @desc Cancel an Order
+// @route DELETE /api/orders/:id
+// @access Private
+const cancelOrder = asyncHandler(async (req, res) => {
+  // Goals:
+  // 1. Giving the user an option to cancel the order
+  // 2. Only the user can cancel the order
+  // 3. The OrderId should be linked to the UserId
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    await order.remove();
+    res.json({ message: "Order Canceled" });
+  } else {
+    res.status(404);
+    throw new Error("Order Not Found");
+  }
+});
+
 export {
   addOrderItems,
   getOrderById,
@@ -126,4 +144,5 @@ export {
   updateOrderToDelivered,
   getMyOrders,
   getOrders,
+  cancelOrder
 };

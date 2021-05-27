@@ -19,7 +19,10 @@ import {
   orderDeliverRequest,
   orderDeliverSuccess,
   orderDeliverFail,
-  orderDeliverReset
+  orderDeliverReset,
+  orderCancelRequest,
+  orderCancelSuccess,
+  orderCancelFail
 } from "../constants/orderConstants";
 
 // Workflow: routes, constants, reducers, actions, screens, bring actions into screen, get what we want from the state
@@ -155,6 +158,27 @@ export const orderListReducer = ( state = {orders: []}, action ) => {
         orders: action.payload,
       };
     case orderListFail:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const orderCancelReducer = ( state = {}, action ) => {
+  switch (action.type) {
+    case orderCancelRequest:
+      return {
+        loading: true,
+      };
+    case orderCancelSuccess:
+      return {
+        loading: false,
+        success: true,
+      };
+    case orderCancelFail:
       return {
         loading: false,
         error: action.payload,

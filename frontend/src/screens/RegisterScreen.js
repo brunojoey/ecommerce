@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
+import Meta from "../components/Meta";
 import { register } from "../actions/userActions";
 
 const RegisterScreen = ({ location, history }) => {
@@ -29,13 +30,15 @@ const RegisterScreen = ({ location, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setMessage('Passwords do not Match')
+      setMessage('Passwords Do Not Match')
     } else {
       dispatch(register(name, email, password));
     }
   };
 
   return (
+    <>
+    <Meta title="Sign Up For An Account" />
     <FormContainer>
       <h1>Sign Up</h1>
       {message && <Message variant="danger">{message}</Message>}
@@ -96,6 +99,7 @@ const RegisterScreen = ({ location, history }) => {
         </Col>
       </Row>
     </FormContainer>
+    </>
   );
 };
 
