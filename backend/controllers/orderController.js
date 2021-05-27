@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
+import { DateTime } from 'luxon';
 
 // @desc Create new Order
 // @route POST /api/orders
@@ -65,7 +66,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 
   if (order) {
     order.isPaid = true;
-    order.paidAt = Date.now();
+    order.paidAt = DateTime.now();
     // PaymentResult Comes from the Paypal API
     order.paymentResult = {
       id: req.body.id,
@@ -91,7 +92,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 
   if (order) {
     order.isDelivered = true;
-    order.deliveredAt = Date.now();
+    order.deliveredAt = DateTime.now();
 
     const updatedOrder = await order.save(); // saves the order in the database
     res.json(updatedOrder);
